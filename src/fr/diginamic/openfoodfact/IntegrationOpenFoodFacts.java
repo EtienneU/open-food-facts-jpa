@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 import fr.diginamic.openfoodfact.dao.CategorieDao;
@@ -54,8 +55,11 @@ public class IntegrationOpenFoodFacts {
 			String nomMarque 	= tabInfosProduits[1];
 			String nomProduit 	= tabInfosProduits[2];
 			char nutriGrade 	= tabInfosProduits[3].charAt(0);
-			String listeIngredi = tabInfosProduits[4];
-			String[] ingredients= listeIngredi.split(",", -1);
+			List<String> ingredients= Arrays.asList(tabInfosProduits[4].replaceAll("[_*]"," ").split("[,;-]", -1));
+			for (String nomIngredient : ingredients) {
+				Ingredient ingredient = new Ingredient(nomIngredient.trim());
+				ingredientDao.insert(ingredient);
+			}
 			double energie100g	= DoubleUtils.parse(tabInfosProduits[5]);
 			double graisse100g	= DoubleUtils.parse(tabInfosProduits[6]);
 			double sucres100g	= DoubleUtils.parse(tabInfosProduits[7]);
@@ -63,18 +67,12 @@ public class IntegrationOpenFoodFacts {
 			double proteines100g= DoubleUtils.parse(tabInfosProduits[9]);
 			double sel100g		= DoubleUtils.parse(tabInfosProduits[10]);
 			
-			Marque marque = new Marque(nomMarque);
-			marqueDao.insert(marque);
+//			Marque marque = new Marque(nomMarque);
+//			marqueDao.insert(marque);
+//			
+//			Categorie categorie = new Categorie(nomCategorie);
+//			categorieDao.insert(categorie);
 			
-			Categorie categorie = new Categorie(nomCategorie);
-			categorieDao.insert(categorie);
-			
-			for (int i = 0; i < listeIngredi.length(); i++) {
-				Ingredient ingredient = new Ingredient();
-			}
-
-//			PreparedStatement prepStatement = connection
-//					.prepareStatement("INSERT INTO " + "ville(nom, population) " + "VALUES (?, ?)");
 		}
 
 //		List<Produit> resultRech = new ArrayList<>();

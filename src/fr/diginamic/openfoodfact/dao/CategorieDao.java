@@ -10,7 +10,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import fr.diginamic.openfoodfact.entities.Categorie;
-import fr.diginamic.openfoodfact.entities.Marque;
 
 /**
  * @author EtienneUrbano
@@ -31,11 +30,16 @@ public class CategorieDao extends AbstractDao {
 	}
 	
 	public void insert(Categorie categorie) {
-		transac.begin();
 		
-		em.persist(categorie);
-		
-		transac.commit();
+		TypedQuery<Categorie> query = em.createQuery("SELECT c FROM Categorie c WHERE c.nom = ?1", Categorie.class);
+		query.setParameter(1, categorie.getNom());
+		List<Categorie> categorieDB = query.getResultList();
+		if (categorieDB.isEmpty()) {
+			transac.begin();
+			em.persist(categorie);
+			transac.commit();
+		}
+	
 	}
 
 }
