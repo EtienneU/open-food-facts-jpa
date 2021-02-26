@@ -33,7 +33,10 @@ public class Categorie {
 	private Set<Produit> produits;
 
 	public Categorie() {
-
+	}
+	
+	public Categorie(String nom) {
+		this.nom = nom;
 	}
 
 	public Integer getId() {

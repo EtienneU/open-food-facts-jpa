@@ -28,6 +28,9 @@ public class Ingredient {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(name="NOM")
+	private String nom;
 
 	@ManyToMany
 	@JoinTable(name = "PRODUITS_INGREDIENTS", 
@@ -53,6 +56,14 @@ public class Ingredient {
 
 	public void setProduits(List<Produit> produits) {
 		this.produits = produits;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 }

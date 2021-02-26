@@ -33,7 +33,10 @@ public class Marque {
 	private Set<Produit> produits;
 
 	public Marque() {
-		
+	}
+	
+	public Marque(String nom) {
+		this.nom = nom;
 	}
 
 	public Integer getId() {
