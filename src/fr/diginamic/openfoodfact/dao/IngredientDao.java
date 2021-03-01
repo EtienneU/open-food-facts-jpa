@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import fr.diginamic.openfoodfact.entities.Categorie;
 import fr.diginamic.openfoodfact.entities.Ingredient;
+import fr.diginamic.openfoodfact.entities.Produit;
 
 /**
  * @author EtienneUrbano
@@ -17,11 +20,10 @@ import fr.diginamic.openfoodfact.entities.Ingredient;
  */
 public class IngredientDao extends AbstractDao {
 	
-	private EntityManager em = AbstractDao.emf.createEntityManager();
-	private EntityTransaction transac = em.getTransaction();
+	private EntityManager em;
 
-	public IngredientDao() {
-		
+	public IngredientDao(EntityManager em) {
+		this.em = em;
 	}
 	
 	public List<Ingredient> findAll() {
@@ -31,24 +33,15 @@ public class IngredientDao extends AbstractDao {
 	}
 	
 	public void insert(Ingredient ingredient) {
-		
-		if(ingredient.getNom().length() <= 255) {
-			TypedQuery<Ingredient> query = em.createQuery("SELECT i FROM Ingredient i WHERE i.nom = ?1",
-					Ingredient.class);
-			query.setParameter(1, ingredient.getNom());
-			List<Ingredient> ingredientDB = query.getResultList();
-			if (ingredientDB.isEmpty()) {
-				transac.begin();
-				em.persist(ingredient);
-				transac.commit();
-			}
+				
+		Query query = em.createQuery("SELECT i FROM Ingredient i WHERE i.nom = ?1");
+		query.setParameter(1, ingredient.getNom());
+		query.setMaxResults(1);
+		List<Ingredient> ingredientDB = query.getResultList();
+		if (ingredientDB == null || ingredientDB.isEmpty()) {
+			em.persist(ingredient);
 		} else {
-			System.out.println("TROP LONG : " + ingredient.getNom());
+			ingredient.setId(ingredientDB.get(0).getId());
 		}
-		
-		
-	
-	}
-			
-		
+	}		
 }

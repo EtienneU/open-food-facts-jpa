@@ -18,10 +18,10 @@ import fr.diginamic.openfoodfact.entities.Produit;
  */
 public class ProduitDao extends AbstractDao {
 	
-	private EntityManager em = AbstractDao.emf.createEntityManager();
-	private EntityTransaction transac = em.getTransaction();
+	private EntityManager em;
 
-	public ProduitDao() {
+	public ProduitDao(EntityManager em) {
+		this.em = em;
 	}
 	
 	public List<Produit> findAll() {
@@ -41,30 +41,18 @@ public class ProduitDao extends AbstractDao {
 	}
 	
 
-	public void insert(Produit produit) {
-		transac.begin();
-		
+	public void insert(Produit produit) {		
 		em.persist(produit);
-		
-		transac.commit();
 	}
 
-	public void updateNom(Produit produit) {
-		transac.begin();
-		
+	public void updateNom(Produit produit) {		
 		Produit produitDB = findById(produit.getId());
 		produitDB.setNom(produit.getNom());
-		
-		transac.commit();
 	}
 
 	public void delete(Produit produit) {
-		transac.begin();
-
 		Produit produitDB = findById(produit.getId());
 		em.refresh(produitDB);
-		
-		transac.commit();
 	}
 
 }

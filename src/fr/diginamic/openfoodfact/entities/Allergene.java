@@ -40,6 +40,10 @@ public class Allergene {
 	
 	public Allergene() {
 	}
+	
+	public Allergene(String nom) {
+		this.nom = nom;
+	}
 
 	public Integer getId() {
 		return id;

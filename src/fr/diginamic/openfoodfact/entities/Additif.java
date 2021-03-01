@@ -40,6 +40,10 @@ public class Additif {
 	
 	public Additif() {
 	}
+	
+	public Additif(String nom) {
+		this.nom = nom;
+	}
 
 	public Integer getId() {
 		return id;
