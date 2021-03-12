@@ -36,12 +36,12 @@ public class IngredientDao extends AbstractDao {
 				
 		Query query = em.createQuery("SELECT i FROM Ingredient i WHERE i.nom = ?1");
 		query.setParameter(1, ingredient.getNom());
-		query.setMaxResults(1);
+		query.setMaxResults(0);
 		List<Ingredient> ingredientDB = query.getResultList();
 		if (ingredientDB == null || ingredientDB.isEmpty()) {
 			em.persist(ingredient);
 		} else {
 			ingredient.setId(ingredientDB.get(0).getId());
-		}
+		} 
 	}		
 }

@@ -4,7 +4,9 @@
 package fr.diginamic.openfoodfact.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +57,7 @@ public class Produit {
 		joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), 
 		inverseJoinColumns = @JoinColumn(name = "ID_ALLERGENE", referencedColumnName = "ID"))
 	private List<Allergene> allergenes = new ArrayList<>();
+
 	
 	@ManyToMany
 	@JoinTable(name = "PRODUITS_ADDITIFS", 
@@ -99,6 +102,40 @@ public class Produit {
 		this.sel100g = sel100g;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		return nom + " | categorie=" + categorie.getNom()
+				+ " | marque=" + marque.getNom() + " | ingredients=" 
+				+ this.afficheIngredients() + "| allergenes=" + this.afficheAllergenes() + " | additifs="
+				+ this.afficheAdditifs() + "\n";
+	}
+	
+	public String afficheIngredients() {
+		String listeIngredients = "";
+		for (Ingredient i : this.ingredients) {
+			listeIngredients = listeIngredients.concat(i.getNom() + " ");
+		}
+		return listeIngredients; 
+	}
+	
+	public String afficheAllergenes() {
+		String listeAllergenes = "";
+		for (Allergene al : this.allergenes) {
+			listeAllergenes = listeAllergenes.concat(al.getNom() + " ");
+		}
+		return listeAllergenes; 
+	}
+	
+	public String afficheAdditifs() {
+		String listeAdditifs = "";
+		for (Additif ad : this.additifs) {
+			listeAdditifs = listeAdditifs.concat(ad.getNom() + " ");
+		}
+		return listeAdditifs; 
+	}
+	
 	public Integer getId() {
 		return id;
 	}

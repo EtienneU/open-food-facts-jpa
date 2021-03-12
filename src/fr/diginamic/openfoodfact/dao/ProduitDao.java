@@ -41,7 +41,7 @@ public class ProduitDao extends AbstractDao {
 	}
 	
 
-	public void insert(Produit produit) {		
+	public void insert(Produit produit) {
 		em.persist(produit);
 	}
 
@@ -52,7 +52,7 @@ public class ProduitDao extends AbstractDao {
 
 	public void delete(Produit produit) {
 		Produit produitDB = findById(produit.getId());
-		em.refresh(produitDB);
+		em.remove(produitDB);
 	}
 
 }
